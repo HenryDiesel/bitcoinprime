@@ -2,14 +2,12 @@
 
 /**
  * @ngdoc function
- * @name bitcoinprimeApp.controller:MainCtrl
+ * @name bitcoinprimeApp.controller:InstructionsCtrl
  * @description
- * # MainCtrl
+ * # InstructionsCtrl
  * Controller of the bitcoinprimeApp
  */
 angular.module('bitcoinprimeApp')
-  .controller('AboutCtrl', function ($scope) {
+  .controller('InstructionsCtrl', function () {
     //empty controller as its only static info on the about page.
   });
-
-  angular.module('bitcoinprimeApp')

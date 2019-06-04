@@ -14,87 +14,26 @@ angular.module('bitcoinprimeApp')
     $scope.model.maxDate = new Date();
     $scope.model.testField = "TEST VALUE";
 
-    //code here
-
-
+    //call rest service to get bitcoin info
     $scope.searchBitcoin = function() {
-
-      //console.log("button press");
-      console.log("start date: " + $scope.model.startDate);
-      console.log("end date: " + $scope.model.endDate);
-      console.log(moment(1318874398806).valueOf());
+      /*  console.log("start date: " + $scope.model.startDate);
+        console.log("end date: " + $scope.model.endDate);
+        console.log(moment(1318874398806).valueOf()); */
 
       var startUnix = moment($scope.model.startDate).valueOf();
       var endUnix = moment($scope.model.endDate).valueOf();
 
+      //console.log(startUnix + " - " + endUnix);
 
-      console.log(startUnix + " - " + endUnix);
+      //cheating with this url, to get around needing a dedicated server.
       var urlCall = 'https://cors-anywhere.herokuapp.com/https://api-pub.bitfinex.com/v2/candles/trade:1D:tBTCUSD/hist?start=' + startUnix + '&end=' + endUnix + '&sort=1';
-      console.log(urlCall);
+      //console.log(urlCall);
       $scope.model.displayedColumns = ['timestamp', 'price'];
       $http({
         method: 'GET',
         url: urlCall,
         withCredentials: false
       }).then(function successCallback(response) {
-        console.log("response: " + response.data.length);
-        //  console.log(response.data[0][1]);
-        var bitArr = response.data;
-        var bitData = [];
-
-        for (var i = 0; i < bitArr.length; i++) {
-          //console.log(i);
-          var primeArr = [];
-          var totalPrime = 0;
-          var priceVal = bitArr[i][1] | 0;
-          var isTotalPrime = "";
-          var rowColor = "";
-
-          var priceString = priceVal + "";
-          var priceNumberArr = priceString.split("");
-
-          console.log(priceString+ " " +priceNumberArr);
-          for(var j = 0;j < priceNumberArr.length; j++)
-          {
-            console.log(priceNumberArr[j]);
-            if(isPrime(priceNumberArr[j]))
-            {
-              primeArr.push(Number(priceNumberArr[j]));
-                totalPrime += Number(priceNumberArr[j]);
-            }
-            else if(priceNumberArr[j] == 1)
-            {
-                primeArr.push(Number(priceNumberArr[j]));
-                totalPrime += Number(priceNumberArr[j]);
-            }
-          }
-          if(isPrime(totalPrime))
-          {
-            isTotalPrime = "Prime";
-            rowColor = "primeBackground";
-          }
-          else {
-            isTotalPrime = "";
-          }
-
-          var object = {
-            timestamp: bitArr[i][0],
-            date: moment(bitArr[i][0]).format("DD MMMM YYYY"),
-            price: priceVal,
-            primenumber : primeArr,
-            totalprime : totalPrime,
-            istotalprime : isTotalPrime,
-            rowColor: rowColor
-          }
-
-          bitData.push(object);
-        }
-        $scope.model.bitValues = bitData;
-        console.log(JSON.stringify(bitData));
-
-
-
-
         // this callback will be called asynchronously
         // when the response is available
 
@@ -109,15 +48,59 @@ angular.module('bitcoinprimeApp')
         ]
         */
 
+        //console.log("response: " + response.data.length);
+        //  console.log(response.data[0][1]);
+        var bitArr = response.data;
+        var bitData = [];
+        //loop over daily bitcoin info
+        for (var i = 0; i < bitArr.length; i++) {
+          //console.log(i);
+          var primeArr = [];
+          var totalPrime = 0;
+          var priceVal = bitArr[i][1] | 0;
+          var isTotalPrime = "";
+          var rowColor = "";
+          var priceString = priceVal + "";
+          //split bitcoin price into an array of single values.
+          var priceNumberArr = priceString.split("");
+          for (var j = 0; j < priceNumberArr.length; j++) {
+            //console.log(priceNumberArr[j]);
+            if (isPrime(priceNumberArr[j])) {
+              primeArr.push(Number(priceNumberArr[j]));
+              totalPrime += Number(priceNumberArr[j]);
+            } else if (priceNumberArr[j] == 1) {
+              primeArr.push(Number(priceNumberArr[j]));
+              totalPrime += Number(priceNumberArr[j]);
+            }
+          }
+          if (isPrime(totalPrime)) {
+            isTotalPrime = "Prime";
+            rowColor = "primeBackground";
+          } else {
+            isTotalPrime = "";
+          }
+          //build final object for the day, which will be shown on the front end.
+          var object = {
+            timestamp: bitArr[i][0],
+            date: moment(bitArr[i][0]).format("DD MMMM YYYY"),
+            price: priceVal,
+            primenumber: primeArr,
+            totalprime: totalPrime,
+            istotalprime: isTotalPrime,
+            rowColor: rowColor
+          }
+          bitData.push(object);
+        }
+        $scope.model.bitValues = bitData;
+        //console.log(JSON.stringify(bitData));
       }, function errorCallback(response) {
         console.log("Error: " + JSON.stringify(response));
         // called asynchronously if an error occurs
         // or server returns response with an error status.
       });
-
-
     }
 
+    //function to calculate if input is a prime number
     //return true if prime
     function isPrime(input) {
       let prime = true;
@@ -130,33 +113,24 @@ angular.module('bitcoinprimeApp')
       return prime && (input > 1);
     }
 
-
-
+    //function gets kicked off whenever a date gets selected.
+    //validates all the basics such as date cannot be after today, cannot search without start date, etc.
     $scope.validateDate = function() {
-
       var startDate = $scope.model.startDate;
       if (startDate) {
         //$scope.model.minEndDate = moment($scope.model.startDate).add(1, 'days');
       }
-
-      var endDate = $scope.model.endDate; {
-
-      }
-
+      var endDate = $scope.model.endDate; {}
       if (moment(startDate).isAfter(moment(), 'day') || moment(endDate).isAfter(moment(), 'day')) {
         showDateValidateMsg("You cannot choose a date thats later than today.");
       }
       if ((startDate && endDate) && moment(startDate).isSame(moment(endDate), 'day')) {
-
         showDateValidateMsg("Start and end date cannot be on the same day.");
         $scope.model.endDate = null;
-
       }
       if (moment(startDate).isAfter(moment(endDate), 'day') || moment(endDate).isBefore(moment(startDate), 'day')) {
-
         showDateValidateMsg("End date must be later than start date");
         $scope.model.endDate = null;
-
       }
       if ((startDate && endDate)) {
         var diffValue = moment(endDate).diff(moment(startDate), 'months');
@@ -166,24 +140,19 @@ angular.module('bitcoinprimeApp')
           $scope.model.endDate = null;
         }
         //console.log(moment(endDate).diff(moment(startDate),'months'));
+      } else if (startDate && !endDate) {
+        var diffValue = moment(new Date()).diff(moment(startDate), 'months');
+        if (diffValue > 6) {
+          showDateValidateMsg("Date range cannot be more than 6 months");
+          $scope.model.startDate = null;
+          $scope.model.endDate = null;
+        }
       }
-
-
-
-      /*** Test for:
-          Is date newer than today.
-          Is start date later than end Date
-          Is end date earlier than start date
-          Is the difference more than 6 months
-      ***/
-
     }
 
+    //function that will show a dialog message
+    //shows the validation error that gets passed.
     function showDateValidateMsg(msg) {
-
-      // Appending dialog to document.body to cover sidenav in docs app
-      // Modal dialogs should fully cover application
-      // to prevent interaction outside of dialog
       $mdDialog.show(
         $mdDialog.alert()
         .parent(angular.element(document.querySelector('#popupContainer')))
@@ -193,10 +162,10 @@ angular.module('bitcoinprimeApp')
         .ariaLabel('Validation Error')
         .ok('Ok')
         .targetEvent(angular.element(document.querySelector('#tabParent')))
-
       );
     };
 
+    //config to change date format for whole controller.
   }).config(function($mdDateLocaleProvider, $httpProvider) {
     $mdDateLocaleProvider.formatDate = function(date) {
       return date ? moment(date).format('DD/MM/YYYY') : ''
@@ -204,6 +173,5 @@ angular.module('bitcoinprimeApp')
     $httpProvider.defaults.withCredentials = true;
     delete $httpProvider.defaults.headers.common["X-Requested-With"];
   });
-
 
 angular.module('bitcoinprimeApp')

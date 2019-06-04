@@ -6,7 +6,7 @@
  * @description
  * # bitcoinprimeApp
  *
- * Main module of the application.
+ * Main module of the application.  Control imports and routes
  */
 angular
   .module('bitcoinprimeApp', [
@@ -31,6 +31,11 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
+      })
+      .when('/instructions', {
+        templateUrl: 'views/instructions.html',
+        controller: 'InstructionsCtrl',
+        controllerAs: 'instructions'
       })
       .otherwise({
         redirectTo: '/'

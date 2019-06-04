@@ -1,41 +1,26 @@
-<div class="jumbotron">
-
-</div>
 
 <div class="row marketing">
-  <h4>Bitcoin Prime Application</h4>
-
+  <h3>Bitcoin Prime Application:</h3>
+<!-- Date inputs -->
   <div layout-gt-sm="row">
 
     <md-input-container flex="40" class="md-block" flex-gt-sm>
       <md-datepicker md-max-date="model.maxDate" ng-model="model.startDate" ng-change="validateDate()" md-placeholder="Start Date" md-open-on-focus></md-datepicker>
     </md-input-container>
 
-
-    <!-- Spacer //-->
-
-
     <md-input-container flex="40" class="md-block" flex-gt-sm>
       <md-datepicker md-max-date="model.maxDate" md-min-date="model.minEndDate" ng-model="model.endDate" ng-change="validateDate()" md-placeholder="End Date" md-open-on-focus></md-datepicker>
     </md-input-container>
 
-
   </div>
-
-
-  <!--  <p>
-    <md-datepicker ng-model="model.startDate" ng-change="onDateChanged()"
-                   md-placeholder="Enter date"></md-datepicker>
-    Date: {{model.startDate | date:shortDate}}
-
-  </p> -->
 
   <md-button class="md-raised" ng-click="searchBitcoin()">Search</md-button>
 
   <p>
-
+<!-- table to contain results of the search -->
     <md-table-container >
       <table md-table md-row-select  multiple ng-model="selected" md-progress="promise">
+        <!--header of table -->
         <thead md-head md-order="model.bitValues">
           <tr md-row>
             <th md-column md-numeric style="text-align:left"><span>Timestamp</span></th>
@@ -44,11 +29,11 @@
             <th md-column md-numeric style="text-align:left"><span>Primes</span></th>
             <th md-column md-numeric style="text-align:left"><span>Total of Primes</span></th>
             <th md-column md-numeric style="text-align:left"><span>Is Total Prime</span></th>
-
-
-
           </tr>
         </thead>
+        <!-- end of header -->
+
+        <!-- body of table -->
         <tbody md-body>
           <tr class="{{bitcoin.rowColor}}" md-row md-select="bitValues" md-select-id="timestamp" md-auto-select ng-repeat="bitcoin in model.bitValues  track by $index">
             <td md-cell style="text-align:left">{{bitcoin.timestamp}}</td>
@@ -57,22 +42,12 @@
             <td md-cell style="text-align:left">{{bitcoin.primenumber}}</td>
             <td md-cell style="text-align:left">{{bitcoin.totalprime}}</td>
             <td md-cell style="text-align:left">{{bitcoin.istotalprime}}</td>
-
           </tr>
         </tbody>
+        <!--end of table -->
       </table>
     </md-table-container>
-
-    <!--  <table>
-  <tr ng-repeat="bitcoin in model.bitValues">
-    <td>{{ bitcoin.price }}</td>
-  </tr>
-</table> -->
+<!-- end of table -->
   </p>
-  <!--  ---------------------------
-<p>
-  {{model.bitValues}}
-</p> -->
-  <!--  <div>{{model.testField}}</div> -->
 
 </div>
