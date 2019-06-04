@@ -9,8 +9,10 @@ For each day that the application returns:
 Requires node and npm.
 
 Git clone the application to your local machine.
+
 cd into the "bitcoinprime" directory.
-Run the following commands to install all the neccesary dependencies: 
+
+Run the following commands in the command promt/terminal to install all the neccesary dependencies: 
 - npm install
 - npm install -g bower
 - bower install
