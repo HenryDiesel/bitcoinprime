@@ -8,7 +8,7 @@
   <div layout-gt-sm="row">
 
     <md-input-container flex="40" class="md-block" flex-gt-sm>
-      <md-datepicker ng-model="model.startDate" ng-change="" md-placeholder="Start Date" md-open-on-focus></md-datepicker>
+      <md-datepicker md-max-date="model.maxDate" ng-model="model.startDate" ng-change="validateDate()" md-placeholder="Start Date" md-open-on-focus></md-datepicker>
     </md-input-container>
 
 
@@ -16,7 +16,7 @@
 
 
     <md-input-container flex="40" class="md-block" flex-gt-sm>
-      <md-datepicker ng-model="model.endDate" ng-change="" md-placeholder="End Date" md-open-on-focus></md-datepicker>
+      <md-datepicker md-max-date="model.maxDate" md-min-date="model.minEndDate" ng-model="model.endDate" ng-change="validateDate()" md-placeholder="End Date" md-open-on-focus></md-datepicker>
     </md-input-container>
 
 
@@ -34,22 +34,30 @@
 
   <p>
 
-    <md-table-container>
-      <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+    <md-table-container >
+      <table md-table md-row-select  multiple ng-model="selected" md-progress="promise">
         <thead md-head md-order="model.bitValues">
           <tr md-row>
-            <th md-column md-numeric md-order-by="timestamp"><span>Timestamp</span></th>
-            <th md-column md-numeric md-order-by="bitcoin.timestamp"><span>Date</span></th>
-            <th md-column md-numeric md-order-by="price"><span>Price</span></th>
+            <th md-column md-numeric style="text-align:left"><span>Timestamp</span></th>
+            <th md-column  style="text-align:left;"><span>Date</span></th>
+            <th md-column md-numeric  style="text-align:left"><span>Price</span></th>
+            <th md-column md-numeric style="text-align:left"><span>Primes</span></th>
+            <th md-column md-numeric style="text-align:left"><span>Total of Primes</span></th>
+            <th md-column md-numeric style="text-align:left"><span>Is Total Prime</span></th>
+
 
 
           </tr>
         </thead>
         <tbody md-body>
-          <tr md-row md-select="bitValues" md-select-id="timestamp" md-auto-select ng-repeat="bitcoin in model.bitValues  track by $index">
-            <td md-cell>{{bitcoin.timestamp}}</td>
-            <td md-cell>{{bitcoin.date}}</td>
-            <td md-cell>{{bitcoin.price}}</td>
+          <tr class="{{bitcoin.rowColor}}" md-row md-select="bitValues" md-select-id="timestamp" md-auto-select ng-repeat="bitcoin in model.bitValues  track by $index">
+            <td md-cell style="text-align:left">{{bitcoin.timestamp}}</td>
+            <td md-cell style="padding-right:0px;text-align:left">{{bitcoin.date}}</td>
+            <td md-cell style="padding-right:2px;text-align:left">$ {{bitcoin.price}}</td>
+            <td md-cell style="text-align:left">{{bitcoin.primenumber}}</td>
+            <td md-cell style="text-align:left">{{bitcoin.totalprime}}</td>
+            <td md-cell style="text-align:left">{{bitcoin.istotalprime}}</td>
+
           </tr>
         </tbody>
       </table>

@@ -7,6 +7,41 @@
 
 body {
   padding: 0;
+  padding-left: 5px;
+}
+
+.primeTable {
+  width: 1250px;
+}
+
+.primeBackground {
+  background-color: DarkSeaGreen;
+}
+
+.demo {
+  position: relative;
+  background-color: #99c2ff;
+  margin-left: -5px;
+  font-size:24px;
+}
+
+.demo a {
+  text-decoration: none !important;
+  font-size: 18px;
+  color: white;
+  height: 100%;
+  width: 100%;
+}
+
+.demo a.visited {
+  color: white;
+}
+
+.demo #content {
+  background-color: rgb(255, 244, 220);
+  font-weight: 600;
+  border: 1px solid #aeaeae;
+  border-top: none;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -22,6 +57,7 @@ body {
   border-bottom: 1px solid #e5e5e5;
   margin-bottom: 10px;
 }
+
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
@@ -37,7 +73,7 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
-.container-narrow > hr {
+.container-narrow>hr {
   margin: 30px 0;
 }
 
@@ -46,6 +82,7 @@ body {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
 }
+
 .jumbotron .btn {
   font-size: 21px;
   padding: 14px 24px;
@@ -55,14 +92,15 @@ body {
 .marketing {
   margin: 40px 0;
 }
-.marketing p + h4 {
+
+.marketing p+h4 {
   margin-top: 28px;
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 900px;
   }
 
   /* Remove the padding we set earlier */
@@ -72,10 +110,12 @@ body {
     padding-left: 0;
     padding-right: 0;
   }
+
   /* Space out the masthead */
   .header {
     margin-bottom: 30px;
   }
+
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
